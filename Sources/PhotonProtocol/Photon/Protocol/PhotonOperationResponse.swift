@@ -1,5 +1,5 @@
 //
-//  XCTestManifests.swift
+//  PhotonOperationResponse.swift
 //
 // PhotonProtocol: A swift implementation of the Photon network protocol
 // Copyright (C) 2018
@@ -19,12 +19,25 @@
 // <https://www.gnu.org/licenses/>.
 //
 
-import XCTest
+import Foundation
 
-#if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(PhotonProtocolTests.allTests),
-    ]
+class PhotonOperationResponse: CustomReadable {
+    let opcode: UInt8
+    let responseCode: Int16
+    let debugMessage: String?
+    let params: [ UInt8: Any? ]
+    
+    init(opcode: UInt8, responseCode: Int16, debugMessage: String?, params: [ UInt8: Any? ]) {
+        self.opcode = opcode
+        self.responseCode = responseCode
+        self.debugMessage = debugMessage
+        self.params = params
+    }
+    
+    required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+        self.opcode = reader.readUInt8()
+        self.responseCode = reader.readInt16()
+        self.debugMessage = reader.readParameter() as? String
+        self.params = reader.readParameterTable()
+    }
 }
-#endif

@@ -1,5 +1,5 @@
 //
-//  XCTestManifests.swift
+//  BigUIntExtension.swift
 //
 // PhotonProtocol: A swift implementation of the Photon network protocol
 // Copyright (C) 2018
@@ -19,12 +19,25 @@
 // <https://www.gnu.org/licenses/>.
 //
 
-import XCTest
+import Foundation
+import BigInt
 
-#if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(PhotonProtocolTests.allTests),
-    ]
+extension BigUInt {
+    public func makeBytes() -> [UInt8] {
+        var bytes: [UInt8] = []
+        for w in self.words {
+            var wordBytes: [UInt8] = []
+            var word = w
+            
+            for _ in 0 ..< 8 {
+                wordBytes.insert(UInt8(word & 0xFF), at: 0)
+                word = word >> 8
+            }
+            
+            for i in (0 ..< wordBytes.count).reversed() {
+                bytes.insert(wordBytes[i], at: 0)
+            }
+        }
+        return bytes
+    }
 }
-#endif

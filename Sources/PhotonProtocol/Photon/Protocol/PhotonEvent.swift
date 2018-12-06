@@ -1,5 +1,5 @@
 //
-//  XCTestManifests.swift
+//  PhotonEvent.swift
 //
 // PhotonProtocol: A swift implementation of the Photon network protocol
 // Copyright (C) 2018
@@ -19,12 +19,19 @@
 // <https://www.gnu.org/licenses/>.
 //
 
-import XCTest
+import Foundation
 
-#if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(PhotonProtocolTests.allTests),
-    ]
+class PhotonEvent: CustomReadable {
+    let eventCode: UInt8
+    let params: [ UInt8: Any? ]
+    
+    init(eventCode: UInt8, params: [ UInt8: Any? ]) {
+        self.eventCode = eventCode
+        self.params = params
+    }
+    
+    required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+        self.eventCode = reader.readUInt8()
+        self.params = reader.readParameterTable()
+    }
 }
-#endif

@@ -1,5 +1,5 @@
 //
-//  XCTestManifests.swift
+//  CustomReadable.swift
 //
 // PhotonProtocol: A swift implementation of the Photon network protocol
 // Copyright (C) 2018
@@ -19,12 +19,8 @@
 // <https://www.gnu.org/licenses/>.
 //
 
-import XCTest
+import Foundation
 
-#if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(PhotonProtocolTests.allTests),
-    ]
+protocol CustomReadable {
+    init(reader: Reader, length: Int, crypto: PhotonCryptoProvider?)
 }
-#endif

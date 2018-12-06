@@ -1,5 +1,5 @@
 //
-//  XCTestManifests.swift
+//  PhotonCryptoProvider.swift
 //
 // PhotonProtocol: A swift implementation of the Photon network protocol
 // Copyright (C) 2018
@@ -19,12 +19,16 @@
 // <https://www.gnu.org/licenses/>.
 //
 
-import XCTest
+import Foundation
 
-#if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(PhotonProtocolTests.allTests),
-    ]
+protocol PhotonCryptoProvider {
+    var isInitialized: Bool { get }
+    var publicKey: [UInt8] { get }
+    
+    func deriveSharedKey(peerPublicKey: [UInt8])
+    
+    func encrypt(_ data: [UInt8]) -> [UInt8]
+    func encrypt(_ data: [UInt8], offset: Int, count: Int) -> [UInt8]
+    func decrypt(_ data: [UInt8]) -> [UInt8]
+    func decrypt(_ data: [UInt8], offset: Int, count: Int) -> [UInt8]
 }
-#endif

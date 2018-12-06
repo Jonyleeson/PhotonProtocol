@@ -1,5 +1,5 @@
 //
-//  XCTestManifests.swift
+//  PhotonFragment.swift
 //
 // PhotonProtocol: A swift implementation of the Photon network protocol
 // Copyright (C) 2018
@@ -19,12 +19,22 @@
 // <https://www.gnu.org/licenses/>.
 //
 
-import XCTest
+import Foundation
 
-#if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(PhotonProtocolTests.allTests),
-    ]
+struct PhotonFragment {
+    let sequenceNumber: Int32
+    let fragmentCount: Int32
+    let fragmentNumber: Int32
+    let totalLength: Int32
+    let fragmentOffset: Int32
 }
-#endif
+
+extension PhotonFragment: CustomReadable {
+    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+        self.sequenceNumber = reader.readInt32()
+        self.fragmentCount = reader.readInt32()
+        self.fragmentNumber = reader.readInt32()
+        self.totalLength = reader.readInt32()
+        self.fragmentOffset = reader.readInt32()
+    }
+}
