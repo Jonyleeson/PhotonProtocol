@@ -21,16 +21,16 @@
 
 import Foundation
 
-class PhotonOperationRequest: CustomReadable {
-    let opcode: UInt8
-    let params: [ UInt8: Any? ]
+public class PhotonOperationRequest: CustomReadable {
+    public let opcode: UInt8
+    public let params: [ UInt8: Any? ]
     
-    init(opcode: UInt8, params: [ UInt8: Any? ]) {
+    public init(opcode: UInt8, params: [ UInt8: Any? ]) {
         self.opcode = opcode
         self.params = params
     }
     
-    required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         self.opcode = reader.readUInt8()
         self.params = reader.readParameterTable()
     }

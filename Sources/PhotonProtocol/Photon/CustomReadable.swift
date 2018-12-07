@@ -21,6 +21,6 @@
 
 import Foundation
 
-protocol CustomReadable {
+public protocol CustomReadable {
     init(reader: Reader, length: Int, crypto: PhotonCryptoProvider?)
 }

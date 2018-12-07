@@ -21,7 +21,7 @@
 
 import Foundation
 
-protocol Writer {
+public protocol Writer {
     var offset: Int { get }
     var length: Int { get }
     

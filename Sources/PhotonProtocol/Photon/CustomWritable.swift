@@ -21,6 +21,6 @@
 
 import Foundation
 
-protocol CustomWritable {
+public protocol CustomWritable {
     func write(to writer: Writer)
 }

@@ -21,16 +21,16 @@
 
 import Foundation
 
-struct PhotonPeerInformation {
-    let versionBytes: [UInt8]
-    let clientSdkIdShifted: UInt8
-    let clientVersion: [UInt8]
-    let isIpv6: Bool
-    let appId: String
+public struct PhotonPeerInformation {
+    public let versionBytes: [UInt8]
+    public let clientSdkIdShifted: UInt8
+    public let clientVersion: [UInt8]
+    public let isIpv6: Bool
+    public let appId: String
 }
 
 extension PhotonPeerInformation: CustomReadable {
-    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         let version = reader.readUInt16()
         self.versionBytes = [ UInt8(version >> 8), UInt8(version & 0xFF) ]
         self.clientSdkIdShifted = reader.readUInt8()

@@ -21,22 +21,22 @@
 
 import Foundation
 
-struct PhotonHeader {
+public struct PhotonHeader {
     static var length: Int {
         return 12
     }
     
-    let peerId: Int16
-    let flags: UInt8
-    let commandCount: UInt8
-    let timestamp: UInt32
-    let challenge: Int32
-    let isCrcEnabled: Bool
-    let isCrcValid: Bool
-    let isEncrypted: Bool
-    let crc: UInt32?
+    public let peerId: Int16
+    public let flags: UInt8
+    public let commandCount: UInt8
+    public let timestamp: UInt32
+    public let challenge: Int32
+    public let isCrcEnabled: Bool
+    public let isCrcValid: Bool
+    public let isEncrypted: Bool
+    public let crc: UInt32?
     
-    init(peerId: Int16, commandCount: UInt8, timestamp: UInt32, challenge: Int32, isEncrypted: Bool, crc: UInt32? = nil) {
+    public init(peerId: Int16, commandCount: UInt8, timestamp: UInt32, challenge: Int32, isEncrypted: Bool, crc: UInt32? = nil) {
         self.peerId = peerId
         
         if isEncrypted {
@@ -66,13 +66,13 @@ struct PhotonHeader {
 }
 
 extension PhotonHeader: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         return "PeerId: \(self.peerId), IsCrcEnabled: \(self.isCrcEnabled), IsEncrypted: \(self.isEncrypted), CommandCount: \(self.commandCount), Timestamp: \(self.timestamp), Challenge: \(self.challenge)"
     }
 }
 
 extension PhotonHeader: CustomReadable {
-    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         let startOffset = reader.offset
         
         self.peerId = reader.readInt16()
@@ -127,7 +127,7 @@ extension PhotonHeader: CustomReadable {
 }
 
 extension PhotonHeader: CustomWritable {
-    func write(to writer: Writer) {
+    public func write(to writer: Writer) {
         writer.writeInt16(value: self.peerId)
         writer.writeUInt8(value: self.flags)
         writer.writeUInt8(value: self.commandCount)

@@ -21,7 +21,7 @@
 
 import Foundation
 
-protocol Reader {
+public protocol Reader {
     var offset: Int { get }
     var length: Int { get }
     

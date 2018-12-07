@@ -21,8 +21,8 @@
 
 import Foundation
 
-struct PhotonCommand {
-    enum Command {
+public struct PhotonCommand {
+    public enum Command {
         case none
         case acknowledge(receivedReliableSequenceNumber: Int32, receivedSentTime: Int32)
         case connect(mtu: Int16, channelCount: UInt8)
@@ -35,17 +35,17 @@ struct PhotonCommand {
         case serverTime
     }
     
-    let header: PhotonCommandHeader?
-    let command: Command
+    public let header: PhotonCommandHeader?
+    public let command: Command
     
-    init(command: Command) {
+    public init(command: Command) {
         self.header = nil
         self.command = command
     }
 }
 
 extension PhotonCommand: CustomReadable {
-    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         let startOffset = reader.offset
         
         self.header = PhotonCommandHeader(reader: reader)
@@ -62,7 +62,7 @@ extension PhotonCommand: CustomReadable {
                                   // but they're static in the client. looks like the same
                                   // data as verifyConnect
             let channelCount = reader.readUInt8()
-            reader.advance(by: 21)
+            reader.advance(by: 23)
             
             self.command = .connect(mtu: mtu, channelCount: channelCount)
         case .acknowledge:
@@ -101,7 +101,7 @@ extension PhotonCommand: CustomReadable {
 }
 
 extension PhotonCommand: CustomWritable {
-    func write(to writer: Writer) {
+    public func write(to writer: Writer) {
         switch self.command {
         case .acknowledge(let receivedReliableSequenceNumber, let receivedSentTime):
             writer.writeInt32(value: receivedReliableSequenceNumber)

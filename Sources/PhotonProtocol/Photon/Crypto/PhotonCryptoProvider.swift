@@ -21,7 +21,7 @@
 
 import Foundation
 
-protocol PhotonCryptoProvider {
+public protocol PhotonCryptoProvider {
     var isInitialized: Bool { get }
     var publicKey: [UInt8] { get }
     

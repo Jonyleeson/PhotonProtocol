@@ -21,8 +21,8 @@
 
 import Foundation
 
-struct PhotonMessageHeader {
-    enum MessageType: UInt8 {
+public struct PhotonMessageHeader {
+    public enum MessageType: UInt8 {
         case initialize                   = 0 // send client version(s) & info
         case initializeResponse           = 1
         case operationRequest             = 2
@@ -34,15 +34,15 @@ struct PhotonMessageHeader {
         case rawMessage                   = 9 // see above
     }
     
-    let signature: UInt8 // always equal to 243 afaik
-    let type: MessageType
-    let isEncrypted: Bool
+    public let signature: UInt8 // always equal to 243 afaik
+    public let type: MessageType
+    public let isEncrypted: Bool
     
     static var length: Int {
         return 2
     }
     
-    init(type: MessageType, isEncrypted: Bool = false) {
+    public init(type: MessageType, isEncrypted: Bool = false) {
         self.signature = 243
         self.type = type
         self.isEncrypted = isEncrypted
@@ -50,7 +50,7 @@ struct PhotonMessageHeader {
 }
 
 extension PhotonMessageHeader: CustomReadable {
-    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         self.signature = reader.readUInt8()
         
         let type = reader.readUInt8()
@@ -61,7 +61,7 @@ extension PhotonMessageHeader: CustomReadable {
 }
 
 extension PhotonMessageHeader: CustomWritable {
-    func write(to writer: Writer) {
+    public func write(to writer: Writer) {
         writer.writeUInt8(value: self.signature)
         
         if self.isEncrypted {

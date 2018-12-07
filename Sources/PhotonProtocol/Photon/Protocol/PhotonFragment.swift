@@ -21,16 +21,16 @@
 
 import Foundation
 
-struct PhotonFragment {
-    let sequenceNumber: Int32
-    let fragmentCount: Int32
-    let fragmentNumber: Int32
-    let totalLength: Int32
-    let fragmentOffset: Int32
+public struct PhotonFragment {
+    public let sequenceNumber: Int32
+    public let fragmentCount: Int32
+    public let fragmentNumber: Int32
+    public let totalLength: Int32
+    public let fragmentOffset: Int32
 }
 
 extension PhotonFragment: CustomReadable {
-    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         self.sequenceNumber = reader.readInt32()
         self.fragmentCount = reader.readInt32()
         self.fragmentNumber = reader.readInt32()

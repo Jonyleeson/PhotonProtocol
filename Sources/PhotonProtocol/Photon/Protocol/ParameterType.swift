@@ -21,7 +21,7 @@
 
 import Foundation
 
-enum ParameterType: UInt8 {
+public enum ParameterType: UInt8 {
     case unknown = 0
     case null = 42 // 0x2A
     case dictionary = 68 // 0x44

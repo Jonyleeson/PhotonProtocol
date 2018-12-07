@@ -21,8 +21,8 @@
 
 import Foundation
 
-struct PhotonCommandHeader {
-    enum CommandType: UInt8 {
+public struct PhotonCommandHeader {
+    public enum CommandType: UInt8 {
         case none                 = 0
         case acknowledge          = 1
         case connect              = 2
@@ -35,20 +35,20 @@ struct PhotonCommandHeader {
         case serverTime           = 12
     }
     
-    static var length: Int {
+    public static var length: Int {
         return 12
     }
     
-    let type: CommandType
-    let channelId: UInt8
-    let flags: UInt8
-    let reserved: UInt8
-    let length: Int32
-    let reliableSequenceNumber: Int32
-    let isInSequence: Bool
-    let isReliable: Bool
+    public let type: CommandType
+    public let channelId: UInt8
+    public let flags: UInt8
+    public let reserved: UInt8
+    public let length: Int32
+    public let reliableSequenceNumber: Int32
+    public let isInSequence: Bool
+    public let isReliable: Bool
     
-    init(type: CommandType, channelId: UInt8, length: Int32, reliableSequenceNumber: Int32, isInSequence: Bool, isReliable: Bool) {
+    public init(type: CommandType, channelId: UInt8, length: Int32, reliableSequenceNumber: Int32, isInSequence: Bool, isReliable: Bool) {
         self.type = type
         self.channelId = channelId
         self.isInSequence = isInSequence
@@ -72,7 +72,7 @@ struct PhotonCommandHeader {
 }
 
 extension PhotonCommandHeader: CustomReadable {
-    init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         let rawType = reader.readUInt8()
         if let type = CommandType(rawValue: rawType) {
             self.type = type
@@ -93,7 +93,7 @@ extension PhotonCommandHeader: CustomReadable {
 }
 
 extension PhotonCommandHeader: CustomWritable {
-    func write(to writer: Writer) {
+    public func write(to writer: Writer) {
         writer.writeUInt8(value: self.type.rawValue)
         writer.writeUInt8(value: self.channelId)
         writer.writeUInt8(value: self.flags)

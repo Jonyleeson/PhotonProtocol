@@ -21,8 +21,8 @@
 
 import Foundation
 
-struct PhotonMessage {
-    enum Message {
+public struct PhotonMessage {
+    public enum Message {
         case initialize(peerInformation: PhotonPeerInformation)
         case initializeResponse
         case operationRequest(operationRequest: PhotonOperationRequest)
@@ -34,12 +34,17 @@ struct PhotonMessage {
         case rawMessage
     }
     
-    let header: PhotonMessageHeader
-    let message: Message
+    public let header: PhotonMessageHeader
+    public let message: Message
+    
+    public init(header: PhotonMessageHeader, message: Message) {
+        self.header = header
+        self.message = message
+    }
 }
 
 extension PhotonMessage: CustomReadable {
-    init(reader: Reader, length: Int, crypto: PhotonCryptoProvider? = nil) {
+    public init(reader: Reader, length: Int, crypto: PhotonCryptoProvider? = nil) {
         self.header = PhotonMessageHeader(reader: reader)
         
         var length = length
@@ -92,7 +97,7 @@ extension PhotonMessage: CustomReadable {
 }
 
 extension PhotonMessage: CustomWritable {
-    func write(to writer: Writer) {
+    public func write(to writer: Writer) {
         self.header.write(to: writer)
         
         switch self.message {

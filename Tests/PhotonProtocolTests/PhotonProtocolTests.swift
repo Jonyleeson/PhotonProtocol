@@ -24,7 +24,32 @@ import XCTest
 
 final class PhotonProtocolTests: XCTestCase {
     func testExample() {
-        let buffer: [UInt8] = [ 0xFF, 0xFF, 0, 1, 0, 0, 0, 0x19, 0x66, 0x15, 0xA6, 0xCE, 2, 0xFF, 1, 4, 0, 0, 0, 0x2C, 0, 0, 0, 1, 0, 0, 4, 0xB0, 0, 0, 0x80, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x13, 0x88, 0, 0, 0, 2, 0, 0, 0, 2 ]
+        let buffer: [UInt8] = [
+            0xFF, 0xFF, // peer id
+            0, // flags
+            1, // commandCount
+            0, 0, 0, 0x19, // timestamp
+            0x66, 0x15, 0xA6, 0xCE, // challenge
+            // command
+            2, // type
+            0xFF, // channelId
+            1, // flags
+            4, //reserved
+            0, 0, 0, 0x2C, // length
+            0, 0, 0, 1, // reliableSequenceNumber
+            // connect
+            0, 0, // unk (peerId in verifyConnect)
+            4, 0xB0, // mtu
+            0, // channel count, last param we actually know,
+            //from here on out we're just guessing
+            0, 0x80,
+            0, 0, 0, 0,
+            2, 0, 0, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 0x13,
+            0x88, 0, 0, 0,
+            2, 0, 0, 0,
+            2 ]
         
         let reader = MockReader(buffer: buffer)
         let header = PhotonHeader(reader: reader)
@@ -49,6 +74,8 @@ final class PhotonProtocolTests: XCTestCase {
         XCTAssertEqual(command.header?.reliableSequenceNumber, 1, "Testing command.header.reliableSequenceNumber")
         XCTAssertEqual(command.header?.isInSequence, false, "Testing command.header.isInSequence")
         XCTAssertEqual(command.header?.isReliable, true, "Testing command.header.isReliable")
+        
+        XCTAssertEqual(reader.offset, buffer.count, "Testing is all bytes were consumed")
     }
 
     static var allTests = [

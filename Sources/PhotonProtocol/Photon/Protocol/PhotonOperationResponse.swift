@@ -21,20 +21,20 @@
 
 import Foundation
 
-class PhotonOperationResponse: CustomReadable {
-    let opcode: UInt8
-    let responseCode: Int16
-    let debugMessage: String?
-    let params: [ UInt8: Any? ]
+public class PhotonOperationResponse: CustomReadable {
+    public let opcode: UInt8
+    public let responseCode: Int16
+    public let debugMessage: String?
+    public let params: [ UInt8: Any? ]
     
-    init(opcode: UInt8, responseCode: Int16, debugMessage: String?, params: [ UInt8: Any? ]) {
+    public init(opcode: UInt8, responseCode: Int16, debugMessage: String?, params: [ UInt8: Any? ]) {
         self.opcode = opcode
         self.responseCode = responseCode
         self.debugMessage = debugMessage
         self.params = params
     }
     
-    required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         self.opcode = reader.readUInt8()
         self.responseCode = reader.readInt16()
         self.debugMessage = reader.readParameter() as? String

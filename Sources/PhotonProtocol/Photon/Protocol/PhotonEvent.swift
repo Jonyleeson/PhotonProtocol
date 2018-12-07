@@ -21,16 +21,16 @@
 
 import Foundation
 
-class PhotonEvent: CustomReadable {
-    let eventCode: UInt8
-    let params: [ UInt8: Any? ]
+public class PhotonEvent: CustomReadable {
+    public let eventCode: UInt8
+    public let params: [ UInt8: Any? ]
     
-    init(eventCode: UInt8, params: [ UInt8: Any? ]) {
+    public init(eventCode: UInt8, params: [ UInt8: Any? ]) {
         self.eventCode = eventCode
         self.params = params
     }
     
-    required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
+    public required init(reader: Reader, length: Int = 0, crypto: PhotonCryptoProvider? = nil) {
         self.eventCode = reader.readUInt8()
         self.params = reader.readParameterTable()
     }
